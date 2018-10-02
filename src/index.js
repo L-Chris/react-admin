@@ -12,7 +12,7 @@ import './index.scss'
 import registerServiceWorker from './registerServiceWorker'
 
 render(
-  <Router style={{ height: '100%' }}>
+  <Router basepath="/react-admin" style={{ height: '100%' }}>
     <AsyncLoginView path="/login"/>
     <HomeLayout path="/">
       <AsyncUserView path="user"/>
