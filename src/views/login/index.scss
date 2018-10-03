@@ -1,0 +1,12 @@
+.login {
+  &-card {
+    position: absolute;
+    right: 200px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    &-button {
+      width: 100%;
+    }
+  }
+}

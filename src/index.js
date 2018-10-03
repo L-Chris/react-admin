@@ -8,11 +8,12 @@ import {
   AsyncOrderView,
   AsyncLoginView
 } from './views'
+import config from '@/config'
 import './index.scss'
 import registerServiceWorker from './registerServiceWorker'
 
 render(
-  <Router basepath="/react-admin" style={{ height: '100%' }}>
+  <Router basepath={ config.routeBasePath } style={{ height: '100%' }}>
     <AsyncLoginView path="/login"/>
     <HomeLayout path="/">
       <AsyncUserView path="user"/>

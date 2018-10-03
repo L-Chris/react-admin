@@ -43,7 +43,7 @@ class Home extends Component {
               >
                 <Menu.Item key="user">用户管理</Menu.Item>
                 <Menu.Item key="menu">菜单管理</Menu.Item>
-                <Menu.Item key="order">点餐</Menu.Item>
+                <Menu.Item key="order">订单记录</Menu.Item>
               </Menu>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>
