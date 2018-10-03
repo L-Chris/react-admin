@@ -1,9 +1,10 @@
 .header {
   display: flex;
-  justify-content: center;
-  .table-operation {
-    button + button {
-      margin-left: 10px;
-    }
+  align-items: center;
+}
+
+.table-operation {
+  button + button {
+    margin-left: 10px;
   }
 }
