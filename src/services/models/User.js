@@ -7,6 +7,11 @@ class User extends Base {
     let res = await super.find()
     return res
   }
+
+  async add (params) {
+    let res = await super.add(params)
+    return res
+  }
 }
 
 export default new User()

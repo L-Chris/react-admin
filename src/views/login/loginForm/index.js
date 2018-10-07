@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
-import Login from '@/services/models/Login'
+import Auth from '@/services/models/Auth'
 import './index.scss'
 
 const FormItem = Form.Item
@@ -10,7 +10,7 @@ class LoginForm extends Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
-      let res = await Login.login(values)
+      let res = await Auth.login(values)
       console.log(res)
     })
   }
@@ -20,7 +20,7 @@ class LoginForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit} className="loginForm">
         <FormItem>
-          {getFieldDecorator('userName', {
+          {getFieldDecorator('account', {
             rules: [{ required: true, message: '请输入用户名!' }],
           })(
             <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="账号" />

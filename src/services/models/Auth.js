@@ -1,10 +1,10 @@
-import Base from './Base'
+import Base from '@/services/models/Base'
 import {BaseURL} from '@/utils/decorators'
 
-@BaseURL('/')
+@BaseURL('/auth')
 class Login extends Base {
   login ({ account, password }) {
-    return super.$get('/login', { account, password })
+    return super.$post('/login', { account, password })
   }
 
   logout () {

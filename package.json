@@ -70,7 +70,14 @@
     "serve": "^10.0.2"
   },
   "proxy": {
-    "/api/": {
+    "/api": {
+      "target": "http://localhost:3001",
+      "changeOrigin": true,
+      "pathRewrite": {
+        "^/api": ""
+      }
+    },
+    "/api/n": {
       "target": "https://nei.netease.com/api/apimock",
       "changeOrigin": true,
       "pathRewrite": {

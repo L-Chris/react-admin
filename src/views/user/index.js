@@ -35,6 +35,10 @@ export default class UserView extends Component {
     }]
   }
 
+  handleAdd = async e => {
+    await User.add({ name: '123', email: '123', phone: '123', account: '123', password: '123', createTime: '123' })
+  }
+
   async asyncData () {
     let { list, ...pagination } = await User.find()
     this.setState({
@@ -51,7 +55,7 @@ export default class UserView extends Component {
     return (
       <section className="userView">
         <header>
-          <Button>增加</Button>
+          <Button onClick={this.handleAdd}>增加</Button>
         </header>
         <Table rowKey="id" dataSource={this.state.tableList} columns={this.columns} />
       </section>

@@ -9,7 +9,7 @@ axios.interceptors.request.use(config => config,
   err => Promise.reject(err)
 )
 axios.interceptors.response.use(({data: {data, status, message}, config: { url }}) => {
-  if (status === '200') return data
+  if (status.toString() === '200') return data
   return Promise.reject({data, status, message})
 }, err => {
   return Promise.reject(err)
