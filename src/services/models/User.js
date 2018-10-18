@@ -8,8 +8,8 @@ class User extends Base {
     return res
   }
 
-  async add (params) {
-    let res = await super.add(params)
+  async save (params) {
+    let res = await super.save(params)
     return res
   }
 }

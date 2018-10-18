@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Table, Button } from 'antd'
+import EditModal from './EditModal'
 import User from '@/services/models/User'
 import './index.scss'
 
+@inject('userStore')
+@observer
 export default class UserView extends Component {
   state = {
     tableList: [],
@@ -25,9 +29,10 @@ export default class UserView extends Component {
       title: '操作',
       dataIndex: 'operation',
       render: () => {
+        const { userStore } = this.props
         return (
           <div className="table-operation">
-            <Button type="primary">编辑</Button>
+            <Button type="primary" onClick={() => userStore.showEditModal()}>编辑</Button>
             <Button type="danger">删除</Button>
           </div>
         )
@@ -35,15 +40,11 @@ export default class UserView extends Component {
     }]
   }
 
-  handleAdd = async e => {
-    await User.add({ name: '123', email: '123', phone: '123', account: '123', password: '123', createTime: '123' })
-  }
-
   async asyncData () {
-    let { list, ...pagination } = await User.find()
+    let list = await User.find()
     this.setState({
       tableList: list,
-      pagination
+      pagination: {}
     })
   }
 
@@ -52,12 +53,14 @@ export default class UserView extends Component {
   }
 
   render () {
+    const { userStore } = this.props
     return (
       <section className="userView">
         <header>
-          <Button onClick={this.handleAdd}>增加</Button>
+          <Button onClick={() => userStore.showAddModal()}>增加</Button>
         </header>
         <Table rowKey="id" dataSource={this.state.tableList} columns={this.columns} />
+        <EditModal/>
       </section>
     )
   }
