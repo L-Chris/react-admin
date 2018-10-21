@@ -11,6 +11,11 @@ export const AsyncMenuView = Loadable({
   loading: Loading
 })
 
+export const AsyncDishView = Loadable({
+  loader: () => import('./dish'),
+  loading: Loading
+})
+
 export const AsyncOrderView = Loadable({
   loader: () => import('./order'),
   loading: Loading

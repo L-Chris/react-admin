@@ -1,14 +1,17 @@
 import React, {Component} from 'react'
-import { Layout, Menu, Breadcrumb } from 'antd'
+import { Layout, Menu } from 'antd'
 import './index.scss'
 
 const { Header, Footer, Sider, Content } = Layout
 
 class Home extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {}
+  state = {
+    menus: [
+      { key: 'user', label: '用户管理' },
+      { key: 'menu', label: '菜单管理' },
+      { key: 'dish', label: '菜品管理' },
+      { key: 'order', label: '订单管理' }
+    ]
   }
 
   handleClickItem ({key}) {
@@ -16,6 +19,7 @@ class Home extends Component {
   }
 
   render () {
+    const defaultSelectedKeys = [this.state.menus[0].key]
     return (
       <Layout style={{ height: '100%' }}>
         <Header className="header">
@@ -25,25 +29,20 @@ class Home extends Component {
             mode="horizontal"
           >
             <Menu.Item>主页</Menu.Item>
-            <Menu.Item>点餐</Menu.Item>
           </Menu>
         </Header>
-        <Content style={{ padding: '0 50px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>1</Breadcrumb.Item>
-            <Breadcrumb.Item>2</Breadcrumb.Item>
-            <Breadcrumb.Item>3</Breadcrumb.Item>
-          </Breadcrumb>
+        <Content style={{ padding: '0 24px', margin: '18px 0' }}>
           <Layout style={{ padding: '24px 0', background: '#fff' }}>
             <Sider>
               <Menu
                 mode="inline"
                 style={{ height: '100%' }}
+                defaultSelectedKeys={defaultSelectedKeys}
                 onClick={this.handleClickItem.bind(this)}
               >
-                <Menu.Item key="user">用户管理</Menu.Item>
-                <Menu.Item key="menu">菜单管理</Menu.Item>
-                <Menu.Item key="order">订单记录</Menu.Item>
+              {
+                this.state.menus.map(({key, label}) => <Menu.Item key={key}>{label}</Menu.Item>)
+              }
               </Menu>
             </Sider>
             <Content style={{ padding: '0 24px', minHeight: 280 }}>

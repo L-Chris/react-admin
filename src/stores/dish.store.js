@@ -1,17 +1,17 @@
 import { observable, computed, action } from 'mobx'
-import User from '@/services/models/User';
+import Dish from "@/services/models/Dish";
 
-class UserStore {
+class DishStore {
   @observable modalVisible = false
   @observable modalForm = {}
-  @observable userList = []
+  @observable dishList = []
 
   @computed get modalType () {
     return this.modalForm.id ? 0 : 1
   }
 
   @computed get modalTitle () {
-    return this.modalType ? '新增用户' : '编辑用户'
+    return this.modalType ? '新增菜品' : '编辑菜品'
   }
 
   @action setModalVisible (bool) {
@@ -22,10 +22,10 @@ class UserStore {
     this.modalForm = form
   }
 
-  @action async findUserList () {
-    let list = await User.find()
-    this.userList = list
+  @action async findDish () {
+    let list = await Dish.find()
+    this.dishList = list
   }
 }
 
-export default new UserStore()
+export default new DishStore()

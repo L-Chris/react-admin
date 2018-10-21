@@ -1,29 +1,32 @@
 import React, { Component } from 'react'
-import { observer, inject } from 'mobx-react'
 import { Table, Button, message } from 'antd'
-import EditModal from './EditModal'
+import { inject, observer } from 'mobx-react';
+import EditModal from './EditModal';
 import './index.scss'
 
-@inject('userStore')
+@inject('dishStore')
 @observer
-export default class UserView extends Component {
+export default class MenuView extends Component {
   constructor (props) {
     super(props)
 
     this.columns = [{
-      title: '昵称',
+      title: '名称',
       dataIndex: 'name'
     }, {
-      title: '邮箱',
-      dataIndex: 'email'
+      title: '价格',
+      dataIndex: 'price'
+    }, {
+      title: '描述',
+      dataIndex: 'extra'
     }, {
       title: '操作',
       dataIndex: 'operation',
       render: (_, item) => {
-        const { userStore } = this.props
+        const { dishStore } = this.props
         const handleClick = () => {
-          userStore.setModalForm(item)
-          userStore.setModalVisible(true)
+          dishStore.setModalForm(item)
+          dishStore.setModalVisible(true)
         }
         return (
           <div className="table-operation">
@@ -35,13 +38,13 @@ export default class UserView extends Component {
   }
 
   handleClickAdd = () => {
-    const { userStore } = this.props
-    userStore.setModalVisible(true)
+    const { dishStore } = this.props
+    dishStore.setModalVisible(true)
   }
 
   async asyncData () {
     const hide = message.loading('加载中', 0)
-    await this.props.userStore.findUserList()
+    await this.props.dishStore.findDish()
     hide()
   }
 
@@ -49,13 +52,15 @@ export default class UserView extends Component {
     this.asyncData()
   }
 
+
+
   render () {
     return (
-      <section className="userView">
+      <section className="dishView">
         <header>
           <Button onClick={this.handleClickAdd}>增加</Button>
         </header>
-        <Table rowKey="id" dataSource={this.props.userStore.userList} columns={this.columns} />
+        <Table rowKey="id" dataSource={this.props.dishStore.dishList} columns={this.columns} />
         <EditModal/>
       </section>
     )

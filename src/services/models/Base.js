@@ -35,6 +35,9 @@ class Base {
   findOne (params, _url = '/get') {
     return this.$get(_url, params, params)
   }
+  update (data, _url = '/update', options) {
+    return this.$post(_url, data, options)
+  }
   add (data, _url = '/add', options) {
     return this.$post(_url, data, options)
   }

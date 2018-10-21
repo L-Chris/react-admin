@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { navigate } from '@reach/router'
 import Auth from '@/services/models/Auth'
 import './index.scss'
+
 
 const FormItem = Form.Item
 
@@ -10,8 +12,12 @@ class LoginForm extends Component {
     e.preventDefault()
     this.props.form.validateFields(async (err, values) => {
       if (err) return
-      let res = await Auth.login(values)
-      console.log(res)
+      try {
+        await Auth.login(values)
+        navigate('/')
+      } catch (err) {
+        console.log(err)
+      }
     })
   }
 

@@ -8,6 +8,7 @@ import HomeLayout from './layouts/home'
 import {
   AsyncUserView,
   AsyncMenuView,
+  AsyncDishView,
   AsyncOrderView,
   AsyncLoginView
 } from './views'
@@ -24,6 +25,7 @@ render(
         <HomeLayout path="/">
           <AsyncUserView path="user"/>
           <AsyncMenuView path="menu"/>
+          <AsyncDishView path="dish"/>
           <AsyncOrderView path="order" />
         </HomeLayout>
       </Router>

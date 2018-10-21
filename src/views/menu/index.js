@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'antd'
-import Menu from '@/services/models/Menu'
+import { Table, Button, message } from 'antd'
+import { inject, observer } from 'mobx-react';
+import EditModal from './EditModal';
 import './index.scss'
 
+@inject('menuStore')
+@observer
 export default class MenuView extends Component {
-  state = {
-    tableList: [],
-    pagination: {}
-  }
-
   constructor (props) {
     super(props)
 
@@ -18,23 +16,30 @@ export default class MenuView extends Component {
     }, {
       title: '操作',
       dataIndex: 'operation',
-      render: () => {
+      render: (_, item) => {
+        const { menuStore } = this.props
+        const handleClick = () => {
+          menuStore.setModalForm(item)
+          menuStore.setModalVisible(true)
+        }
         return (
           <div className="table-operation">
-            <Button type="primary">编辑</Button>
-            <Button type="danger">删除</Button>
+            <Button type="primary" onClick={handleClick}>编辑</Button>
           </div>
         )
       }
     }]
   }
 
+  handleClickAdd = () => {
+    const { menuStore } = this.props
+    menuStore.setModalVisible(true)
+  }
+
   async asyncData () {
-    let { list, ...pagination } = await Menu.find()
-    this.setState({
-      tableList: list,
-      pagination
-    })
+    const hide = message.loading('加载中', 0)
+    await this.props.menuStore.findMenu()
+    hide()
   }
 
   componentWillMount () {
@@ -47,9 +52,10 @@ export default class MenuView extends Component {
     return (
       <section className="menuView">
         <header>
-          <Button>增加</Button>
+          <Button onClick={this.handleClickAdd}>增加</Button>
         </header>
-        <Table rowKey="id" dataSource={this.state.tableList} columns={this.columns} />
+        <Table rowKey="id" dataSource={this.props.menuStore.menuList} columns={this.columns} />
+        <EditModal/>
       </section>
     )
   }

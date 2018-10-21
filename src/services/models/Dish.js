@@ -1,8 +1,8 @@
 import Base from './Base'
 import {BaseURL} from '@/utils/decorators'
 
-@BaseURL('/user')
-class User extends Base {
+@BaseURL('/dish')
+class Dish extends Base {
   async find () {
     let res = await super.find()
     return res
@@ -17,11 +17,6 @@ class User extends Base {
     let res = await super.add(params)
     return res
   }
-
-  async findCurrent () {
-    let res = await this.$get('/current')
-    return res
-  }
 }
 
-export default new User()
+export default new Dish()
