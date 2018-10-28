@@ -3,6 +3,17 @@ import { Modal, Form, Icon, Input, message } from 'antd'
 import { observer, inject } from 'mobx-react'
 import Dish from '@/services/models/Dish'
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 }
+  }
+}
+
 @inject('dishStore')
 @observer
 class EditModal extends Component {
@@ -48,7 +59,9 @@ class EditModal extends Component {
         onCancel={this.handleCancel}
       >
         <Form onSubmit={this.handleSubmit}>
-          <Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="名称">
             {getFieldDecorator('name', {
               initialValue: dishStore.modalForm.name,
               rules: [
@@ -60,7 +73,9 @@ class EditModal extends Component {
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="名称" />
             )}
           </Form.Item>
-          <Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="价格">
             {getFieldDecorator('price', {
               initialValue: dishStore.modalForm.price,
               rules: [
@@ -70,7 +85,9 @@ class EditModal extends Component {
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="价格" />
             )}
           </Form.Item>
-          <Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="描述">
             {getFieldDecorator('extra', {
               initialValue: dishStore.modalForm.extra
             })(

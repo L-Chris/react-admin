@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
+import { observer, inject } from 'mobx-react'
 import { Table, Button } from 'antd'
 import Order from '@/services/models/Order'
 import './index.scss'
+import EditModal from './EditModal';
 
+@inject('orderStore')
+@observer
 export default class OrderView extends Component {
   state = {
     tableList: [],
@@ -27,15 +31,24 @@ export default class OrderView extends Component {
     }, {
       title: '操作',
       dataIndex: 'operation',
-      render: () => {
+      render: (_, item) => {
+        const { orderStore } = this.props
+        const handleClick = () => {
+          orderStore.setModalForm(item)
+          orderStore.setModalVisible(true)
+        }
         return (
           <div className="table-operation">
             <Button type="primary">编辑</Button>
-            <Button type="danger">删除</Button>
           </div>
         )
       }
     }]
+  }
+
+  handleClickAdd = () => {
+    const { orderStore } = this.props
+    orderStore.setModalVisible(true)
   }
 
   async asyncData () {
@@ -54,9 +67,10 @@ export default class OrderView extends Component {
     return (
       <section className="orderView">
         <header>
-          <Button>增加</Button>
+        <Button onClick={this.handleClickAdd}>增加</Button>
         </header>
         <Table rowKey="id" dataSource={this.state.tableList} columns={this.columns} />
+        <EditModal/>
       </section>
     )
   }

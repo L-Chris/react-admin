@@ -5,6 +5,17 @@ import User from '@/services/models/User'
 
 const FormItem = Form.Item
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 }
+  }
+}
+
 @inject('userStore')
 @observer
 class EditModal extends Component {
@@ -50,7 +61,9 @@ class EditModal extends Component {
         onCancel={this.handleCancel}
       >
         <Form onSubmit={this.handleSubmit} className="loginForm">
-          <FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="昵称">
             {getFieldDecorator('name', {
               initialValue: userStore.modalForm.name,
               rules: [{ required: true, message: '请输入昵称!' }],
@@ -58,7 +71,9 @@ class EditModal extends Component {
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="昵称" />
             )}
           </FormItem>
-          <FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="账号">
             {getFieldDecorator('account', {
               initialValue: userStore.modalForm.account,
               rules: [
@@ -70,7 +85,9 @@ class EditModal extends Component {
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="账号" />
             )}
           </FormItem>
-          <FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="密码">
             {getFieldDecorator('password', {
               initialValue: userStore.modalForm.password,
               rules: [
@@ -82,7 +99,9 @@ class EditModal extends Component {
               <Input prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="密码" />
             )}
           </FormItem>
-          <FormItem>
+          <FormItem
+            {...formItemLayout}
+            label="邮箱">
             {getFieldDecorator('email', {
               initialValue: userStore.modalForm.email,
               rules: [{ required: true, message: '请输入邮箱!' }],

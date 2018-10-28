@@ -1,10 +1,14 @@
 import { observable, computed, action } from 'mobx'
 import Menu from "@/services/models/Menu";
+import Dish from '@/services/models/Dish';
 
 class MenuStore {
   @observable modalVisible = false
-  @observable modalForm = {}
+  @observable modalForm = {
+    dishes: []
+  }
   @observable menuList = []
+  @observable dishList = []
 
   @computed get modalType () {
     return this.modalForm.id ? 0 : 1
@@ -25,6 +29,11 @@ class MenuStore {
   @action async findMenu () {
     let list = await Menu.find()
     this.menuList = list
+  }
+
+  @action async findDish () {
+    let list = await Dish.find()
+    this.dishList = list
   }
 }
 

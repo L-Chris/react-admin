@@ -19,7 +19,10 @@ export default class MenuView extends Component {
       render: (_, item) => {
         const { menuStore } = this.props
         const handleClick = () => {
-          menuStore.setModalForm(item)
+          menuStore.setModalForm({
+            ...item,
+            dishes: item.dishes.map(_ => ({ key: _.id, label: _.name }))
+          })
           menuStore.setModalVisible(true)
         }
         return (
@@ -45,8 +48,6 @@ export default class MenuView extends Component {
   componentWillMount () {
     this.asyncData()
   }
-
-
 
   render () {
     return (

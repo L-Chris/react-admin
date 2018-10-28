@@ -1,7 +1,18 @@
 import React, { Component } from 'react'
-import { Modal, Form, Icon, Input, message } from 'antd'
+import { Modal, Form, Icon, Input, Select, message } from 'antd'
 import { observer, inject } from 'mobx-react'
 import Menu from '@/services/models/Menu'
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 5 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 12 }
+  }
+}
 
 @inject('menuStore')
 @observer
@@ -12,6 +23,7 @@ class EditModal extends Component {
     form.validateFields(async (err, values) => {
       if (err) return
       const hideMessage = message.loading('保存中', 0)
+      values.dishes = values.dishes.map(_ => _.key)
       try {
         if (menuStore.modalType) {
           await Menu.add(values)
@@ -37,6 +49,10 @@ class EditModal extends Component {
     form.resetFields()
   }
 
+  componentWillMount = () => {
+    this.props.menuStore.findDish()
+  }
+
   render() {
     const { menuStore } = this.props
     const { getFieldDecorator } = this.props.form
@@ -48,7 +64,9 @@ class EditModal extends Component {
         onCancel={this.handleCancel}
       >
         <Form onSubmit={this.handleSubmit}>
-          <Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="名称">
             {getFieldDecorator('name', {
               initialValue: menuStore.modalForm.name,
               rules: [
@@ -58,6 +76,26 @@ class EditModal extends Component {
               ],
             })(
               <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="名称" />
+            )}
+          </Form.Item>
+          <Form.Item
+            {...formItemLayout}
+            label="菜品">
+            {getFieldDecorator('dishes', {
+              initialValue: menuStore.modalForm.dishes
+            })(
+              <Select
+                mode="multiple"
+                labelInValue
+                style={{ width: '100%' }}
+                placeholder="请选择菜品"
+              >
+              {
+                menuStore.dishList.map(_ => (
+                  <Select.Option key={_.id}>{_.name}</Select.Option>
+                ))
+              }
+              </Select>
             )}
           </Form.Item>
         </Form>
