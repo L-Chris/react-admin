@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Form, Input, Select, message } from 'antd'
 import { observer, inject } from 'mobx-react'
-import Menu from '@/services/models/Menu'
+import Shop from '@/services/models/Shop'
 
 const formItemLayout = {
   labelCol: {
@@ -14,24 +14,24 @@ const formItemLayout = {
   }
 }
 
-@inject('menuStore')
+@inject('shopStore')
 @observer
 class EditModal extends Component {
   handleSubmit = e => {
     e.preventDefault()
-    const { form, menuStore } = this.props
+    const { form, shopStore } = this.props
     form.validateFields(async (err, values) => {
       if (err) return
       const hideMessage = message.loading('保存中', 0)
       values.dishes = values.dishes.map(_ => _.key)
       try {
-        if (menuStore.modalType) {
-          await Menu.add(values)
+        if (shopStore.modalType) {
+          await Shop.add(values)
         } else {
-          const { id } = menuStore.modalForm
-          await Menu.update({ id, ...values })
+          const { id } = shopStore.modalForm
+          await Shop.update({ id, ...values })
         }
-        await menuStore.findMenu()
+        await shopStore.findShop()
         hideMessage()
         message.success('保存成功')
         this.handleCancel()
@@ -43,23 +43,23 @@ class EditModal extends Component {
   }
 
   handleCancel = () => {
-    const { form, menuStore } = this.props
-    menuStore.setModalVisible(false)
-    menuStore.setModalForm({})
+    const { form, shopStore } = this.props
+    shopStore.setModalVisible(false)
+    shopStore.setModalForm({})
     form.resetFields()
   }
 
   componentWillMount = () => {
-    this.props.menuStore.findDish()
+    this.props.shopStore.findDish()
   }
 
   render() {
-    const { menuStore } = this.props
+    const { shopStore } = this.props
     const { getFieldDecorator } = this.props.form
     return (
       <Modal
-        visible={menuStore.modalVisible}
-        title={menuStore.modalTitle}
+        visible={shopStore.modalVisible}
+        title={shopStore.modalTitle}
         onOk={this.handleSubmit}
         onCancel={this.handleCancel}
       >
@@ -68,7 +68,7 @@ class EditModal extends Component {
             {...formItemLayout}
             label="名称">
             {getFieldDecorator('name', {
-              initialValue: menuStore.modalForm.name,
+              initialValue: shopStore.modalForm.name,
               rules: [
                 { required: true, message: '请输入名称!' },
                 { min: 3, message: '最少3个字符' },
@@ -82,7 +82,7 @@ class EditModal extends Component {
             {...formItemLayout}
             label="菜品">
             {getFieldDecorator('dishes', {
-              initialValue: menuStore.modalForm.dishes
+              initialValue: shopStore.modalForm.dishes
             })(
               <Select
                 mode="multiple"
@@ -91,7 +91,7 @@ class EditModal extends Component {
                 placeholder="请选择菜品"
               >
               {
-                menuStore.dishList.map(_ => (
+                shopStore.dishList.map(_ => (
                   <Select.Option key={_.id}>{_.name}</Select.Option>
                 ))
               }

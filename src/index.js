@@ -7,10 +7,10 @@ import zhCN from 'antd/lib/locale-provider/zh_CN'
 import HomeLayout from './layouts/home'
 import {
   AsyncUserView,
-  AsyncMenuView,
   AsyncDishView,
   AsyncOrderView,
-  AsyncLoginView
+  AsyncLoginView,
+  AsyncShopView
 } from './views'
 import stores from './stores'
 import config from '@/config'
@@ -24,7 +24,7 @@ render(
         <AsyncLoginView path="/login"/>
         <HomeLayout path="/">
           <AsyncUserView path="user"/>
-          <AsyncMenuView path="menu"/>
+          <AsyncShopView path="shop"/>
           <AsyncDishView path="dish"/>
           <AsyncOrderView path="order" />
         </HomeLayout>

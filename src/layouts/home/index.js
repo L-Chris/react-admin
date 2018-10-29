@@ -8,7 +8,7 @@ class Home extends Component {
   state = {
     menus: [
       { key: 'user', label: '用户管理' },
-      { key: 'menu', label: '菜单管理' },
+      { key: 'shop', label: '店铺管理' },
       { key: 'dish', label: '菜品管理' },
       { key: 'order', label: '订单管理' }
     ]

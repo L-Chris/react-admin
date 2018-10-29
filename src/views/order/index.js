@@ -39,7 +39,7 @@ export default class OrderView extends Component {
         }
         return (
           <div className="table-operation">
-            <Button type="primary">编辑</Button>
+            <Button type="primary" onClick={handleClick}>编辑</Button>
           </div>
         )
       }

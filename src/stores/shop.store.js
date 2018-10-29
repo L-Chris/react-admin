@@ -1,13 +1,12 @@
 import { observable, computed, action } from 'mobx'
-import Order from '@/services/models/Order';
 import Shop from '@/services/models/Shop';
+import Dish from '@/services/models/Dish';
 
-class OrderStore {
+class ShopStore {
   @observable modalVisible = false
   @observable modalForm = {
-    shop: { key: '' }
+    dishes: []
   }
-  @observable orderList = []
   @observable shopList = []
   @observable dishList = []
 
@@ -16,7 +15,7 @@ class OrderStore {
   }
 
   @computed get modalTitle () {
-    return this.modalType ? '新增订单' : '编辑订单'
+    return this.modalType ? '新增店铺' : '编辑店铺'
   }
 
   @action setModalVisible (bool) {
@@ -27,20 +26,15 @@ class OrderStore {
     this.modalForm = form
   }
 
-  @action async findOrder () {
-    let list = await Order.find()
-    this.orderList = list
-  }
-
   @action async findShop () {
     let list = await Shop.find()
     this.shopList = list
   }
 
-  @action async findDishByShop ({ id }) {
-    let { dishes } = await Shop.findOne({ id })
-    this.dishList = dishes
+  @action async findDish () {
+    let list = await Dish.find()
+    this.dishList = list
   }
 }
 
-export default new OrderStore()
+export default new ShopStore()
