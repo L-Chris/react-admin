@@ -1,40 +1,46 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Table, Button } from 'antd'
-import Order from '@/services/models/Order'
-import './index.scss'
+import { Table, Button, message } from 'antd'
+import moment from 'dayjs'
 import EditModal from './EditModal';
+import './index.scss'
 
 @inject('orderStore')
 @observer
 export default class OrderView extends Component {
-  state = {
-    tableList: [],
-    pagination: {}
-  }
-
   constructor (props) {
     super(props)
 
     this.columns = [{
-      title: '总价',
-      dataIndex: 'price'
+      title: '店铺',
+      dataIndex: 'shop.name'
     }, {
-      title: '是否付款',
-      dataIndex: 'isPay'
+      title: '类型',
+      dataIndex: 'type.name'
     }, {
       title: '创建人',
       dataIndex: 'user.name'
     }, {
+      title: '总价',
+      dataIndex: 'price'
+    }, {
       title: '创建时间',
-      dataIndex: 'createTime'
+      dataIndex: 'createTime',
+      render (text, record, index) {
+        return moment(Number(text)).format('YYYY/MM/DD hh:mm')
+      }
     }, {
       title: '操作',
       dataIndex: 'operation',
       render: (_, item) => {
         const { orderStore } = this.props
         const handleClick = () => {
-          orderStore.setModalForm(item)
+          const { shop, type } = item
+          orderStore.setModalForm({
+            type: { key: type.id, label: type.name },
+            shop: { key: shop.id, label: shop.name },
+            dishes: item.dishes.map(_ => ({ key: _.id, label: _.name }))
+          })
           orderStore.setModalVisible(true)
         }
         return (
@@ -52,11 +58,9 @@ export default class OrderView extends Component {
   }
 
   async asyncData () {
-    let { list, ...pagination } = await Order.find()
-    this.setState({
-      tableList: list,
-      pagination
-    })
+    const hide = message.loading('加载中', 0)
+    await this.props.orderStore.findOrder()
+    hide()
   }
 
   componentWillMount () {
@@ -69,7 +73,7 @@ export default class OrderView extends Component {
         <header>
         <Button onClick={this.handleClickAdd}>增加</Button>
         </header>
-        <Table rowKey="id" dataSource={this.state.tableList} columns={this.columns} />
+        <Table rowKey="id" dataSource={this.props.orderStore.orderList} columns={this.columns} />
         <EditModal/>
       </section>
     )

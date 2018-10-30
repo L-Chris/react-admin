@@ -3,8 +3,6 @@ import { Modal, Form, Select, message } from 'antd'
 import { observer, inject } from 'mobx-react'
 import Order from '@/services/models/Order'
 
-const FormItem = Form.Item
-
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
@@ -25,6 +23,9 @@ class EditModal extends Component {
     form.validateFields(async (err, values) => {
       if (err) return
       const hideMessage = message.loading('保存中', 0)
+      values.type = { id: values.type.key }
+      values.shop = { id: values.shop.key }
+      values.dishes = values.dishes.map(_ => _.key)
       try {
         if (orderStore.modalType) {
           await Order.add(values)
@@ -36,9 +37,9 @@ class EditModal extends Component {
         hideMessage()
         message.success('保存成功')
         this.handleCancel()
-      } catch ({err}) {
+      } catch (err) {
         hideMessage()
-        message.error(err.messsage)
+        message.error(err.message)
       }
     })
   }
@@ -56,6 +57,7 @@ class EditModal extends Component {
 
   componentWillMount = () => {
     this.props.orderStore.findShop()
+    this.props.orderStore.findOrderType()
   }
 
   render() {
@@ -69,6 +71,25 @@ class EditModal extends Component {
         onCancel={this.handleCancel}
       >
         <Form onSubmit={this.handleSubmit} className="loginForm">
+        <Form.Item
+            {...formItemLayout}
+            label="类型">
+            {getFieldDecorator('type', {
+              initialValue: orderStore.modalForm.type
+            })(
+              <Select
+                labelInValue
+                style={{ width: '100%' }}
+                placeholder="请选择类型"
+              >
+              {
+                orderStore.types.map(_ => (
+                  <Select.Option key={_.id}>{_.name}</Select.Option>
+                ))
+              }
+              </Select>
+            )}
+          </Form.Item>
         <Form.Item
             {...formItemLayout}
             label="店铺">

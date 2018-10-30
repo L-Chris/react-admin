@@ -5,8 +5,11 @@ import Shop from '@/services/models/Shop';
 class OrderStore {
   @observable modalVisible = false
   @observable modalForm = {
-    shop: { key: '' }
+    type: { key: '' },
+    shop: { key: '' },
+    dishes: []
   }
+  @observable types = []
   @observable orderList = []
   @observable shopList = []
   @observable dishList = []
@@ -30,6 +33,10 @@ class OrderStore {
   @action async findOrder () {
     let list = await Order.find()
     this.orderList = list
+  }
+
+  @action async findOrderType () {
+    this.types = [{ id: 1, name: '普通' }, { id: 2, name: '午餐' }, { id: 3, name: '晚餐' }]
   }
 
   @action async findShop () {

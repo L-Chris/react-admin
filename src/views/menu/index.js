@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Table, Button, message } from 'antd'
 import { inject, observer } from 'mobx-react';
+import { Table, Button, message } from 'antd'
 import EditModal from './EditModal';
 import './index.scss'
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, Form, Icon, Input, message } from 'antd'
+import { Modal, Form, Input, InputNumber, message } from 'antd'
 import { observer, inject } from 'mobx-react'
 import Dish from '@/services/models/Dish'
 
@@ -36,7 +36,7 @@ class EditModal extends Component {
         this.handleCancel()
       } catch (err) {
         hideMessage()
-        message.error(err.messsage)
+        message.error(err.message)
       }
     })
   }
@@ -70,7 +70,7 @@ class EditModal extends Component {
                 { max: 20, message: '最多20个字符' }
               ],
             })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="名称" />
+              <Input placeholder="名称" />
             )}
           </Form.Item>
           <Form.Item
@@ -80,9 +80,9 @@ class EditModal extends Component {
               initialValue: dishStore.modalForm.price,
               rules: [
                 { required: true, message: '请输入价格!' }
-              ],
+              ]
             })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="价格" />
+              <InputNumber/>
             )}
           </Form.Item>
           <Form.Item
@@ -91,7 +91,7 @@ class EditModal extends Component {
             {getFieldDecorator('extra', {
               initialValue: dishStore.modalForm.extra
             })(
-              <Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.3)' }} />} placeholder="描述" />
+              <Input placeholder="描述" />
             )}
           </Form.Item>
         </Form>

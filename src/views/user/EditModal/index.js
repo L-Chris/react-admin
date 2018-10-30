@@ -38,7 +38,7 @@ class EditModal extends Component {
         this.handleCancel()
       } catch ({err}) {
         hideMessage()
-        message.error(err.messsage)
+        message.error(err.message)
       }
     })
   }
