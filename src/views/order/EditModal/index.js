@@ -23,7 +23,7 @@ class EditModal extends Component {
     form.validateFields(async (err, values) => {
       if (err) return
       const hideMessage = message.loading('保存中', 0)
-      values.type = { id: values.type.key }
+      values.type = values.type.key
       values.shop = { id: values.shop.key }
       values.dishes = values.dishes.map(_ => _.key)
       try {

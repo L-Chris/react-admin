@@ -5,6 +5,12 @@ import moment from 'dayjs'
 import EditModal from './EditModal';
 import './index.scss'
 
+const orderTypeMap = {
+  '0': '普通',
+  '1': '午餐',
+  '2': '晚餐'
+}
+
 @inject('orderStore')
 @observer
 export default class OrderView extends Component {
@@ -16,7 +22,10 @@ export default class OrderView extends Component {
       dataIndex: 'shop.name'
     }, {
       title: '类型',
-      dataIndex: 'type.name'
+      dataIndex: 'type',
+      render (text, record, index) {
+        return orderTypeMap[text]
+      }
     }, {
       title: '创建人',
       dataIndex: 'user.name'
@@ -36,8 +45,9 @@ export default class OrderView extends Component {
         const { orderStore } = this.props
         const handleClick = () => {
           const { shop, type } = item
+          console.log(item)
           orderStore.setModalForm({
-            type: { key: type.id, label: type.name },
+            type: { key: type, label: orderTypeMap[type] },
             shop: { key: shop.id, label: shop.name },
             dishes: item.dishes.map(_ => ({ key: _.id, label: _.name }))
           })

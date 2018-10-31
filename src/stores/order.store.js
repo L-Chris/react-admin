@@ -36,7 +36,7 @@ class OrderStore {
   }
 
   @action async findOrderType () {
-    this.types = [{ id: 1, name: '普通' }, { id: 2, name: '午餐' }, { id: 3, name: '晚餐' }]
+    this.types = [{ id: '0', name: '普通' }, { id: '1', name: '午餐' }, { id: '2', name: '晚餐' }]
   }
 
   @action async findShop () {
