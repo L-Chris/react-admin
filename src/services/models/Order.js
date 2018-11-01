@@ -3,8 +3,8 @@ import {BaseURL} from '@/utils/decorators'
 
 @BaseURL('/order')
 class Order extends Base {
-  async find () {
-    let res = await super.find()
+  async find ({ type } = {}) {
+    let res = await super.find({ type })
     return res
   }
 }

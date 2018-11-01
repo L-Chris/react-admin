@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "@reach/router": "^1.2.1",
-    "antd": "^3.10.1",
+    "antd": "^3.10.3",
     "axios": "^0.18.0",
     "dayjs": "^1.7.7",
-    "mobx": "^5.5.1",
-    "mobx-react": "^5.3.4",
-    "react": "^16.5.2",
-    "react-dev-utils": "^5.0.2",
-    "react-dom": "^16.5.2"
+    "mobx": "^5.5.2",
+    "mobx-react": "^5.3.6",
+    "react": "^16.6.0",
+    "react-dev-utils": "^6.1.1",
+    "react-dom": "^16.6.0"
   },
   "scripts": {
     "dev": "node scripts/start.js",
@@ -78,13 +78,6 @@
       "changeOrigin": true,
       "pathRewrite": {
         "^/api": ""
-      }
-    },
-    "/api/n": {
-      "target": "https://nei.netease.com/api/apimock",
-      "changeOrigin": true,
-      "pathRewrite": {
-        "/api": "/4258d839dcfa5932ff08e632aac348dd/api"
       }
     }
   }

@@ -15,11 +15,11 @@ class OrderStore {
   @observable dishList = []
 
   @computed get modalType () {
-    return this.modalForm.id ? 0 : 1
+    return this.modalForm.id ? 1 : 0
   }
 
   @computed get modalTitle () {
-    return this.modalType ? '新增订单' : '编辑订单'
+    return this.modalType ? '编辑订单' : '新增订单'
   }
 
   @action setModalVisible (bool) {
@@ -30,8 +30,8 @@ class OrderStore {
     this.modalForm = form
   }
 
-  @action async findOrder () {
-    let list = await Order.find()
+  @action async findOrder (params) {
+    let list = await Order.find(params)
     this.orderList = list
   }
 

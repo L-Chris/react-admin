@@ -28,10 +28,10 @@ class EditModal extends Component {
       values.dishes = values.dishes.map(_ => _.key)
       try {
         if (orderStore.modalType) {
-          await Order.add(values)
-        } else {
           const { id } = orderStore.modalForm
           await Order.update({ id, ...values })
+        } else {
+          await Order.add(values)
         }
         await orderStore.findOrder()
         hideMessage()
@@ -79,6 +79,7 @@ class EditModal extends Component {
             })(
               <Select
                 labelInValue
+                disabled={!!orderStore.modalType}
                 style={{ width: '100%' }}
                 placeholder="请选择类型"
               >

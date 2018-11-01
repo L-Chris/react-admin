@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Table, Button, message } from 'antd'
+import { Table, Select, Button, message } from 'antd'
 import moment from 'dayjs'
 import EditModal from './EditModal';
 import './index.scss'
@@ -44,9 +44,9 @@ export default class OrderView extends Component {
       render: (_, item) => {
         const { orderStore } = this.props
         const handleClick = () => {
-          const { shop, type } = item
-          console.log(item)
+          const { shop, type, id } = item
           orderStore.setModalForm({
+            id,
             type: { key: type, label: orderTypeMap[type] },
             shop: { key: shop.id, label: shop.name },
             dishes: item.dishes.map(_ => ({ key: _.id, label: _.name }))
@@ -67,9 +67,13 @@ export default class OrderView extends Component {
     orderStore.setModalVisible(true)
   }
 
-  async asyncData () {
+  handleSelect = ({ key: type }) => {
+    this.asyncData({ type })
+  }
+
+  async asyncData (params) {
     const hide = message.loading('加载中', 0)
-    await this.props.orderStore.findOrder()
+    await this.props.orderStore.findOrder(params)
     hide()
   }
 
@@ -78,12 +82,26 @@ export default class OrderView extends Component {
   }
 
   render () {
+    const { orderStore } = this.props
+
     return (
       <section className="orderView">
         <header>
-        <Button onClick={this.handleClickAdd}>增加</Button>
+          <Button onClick={this.handleClickAdd}>增加</Button>
+          <Select
+            labelInValue
+            style={{ width: '240px', marginLeft: '20px' }}
+            placeholder="请选择类型"
+            onChange={this.handleSelect}
+          >
+          {
+            orderStore.types.map(_ => (
+              <Select.Option key={_.id}>{_.name}</Select.Option>
+            ))
+          }
+          </Select>
         </header>
-        <Table rowKey="id" dataSource={this.props.orderStore.orderList} columns={this.columns} />
+        <Table rowKey="id" dataSource={orderStore.orderList} columns={this.columns} />
         <EditModal/>
       </section>
     )
