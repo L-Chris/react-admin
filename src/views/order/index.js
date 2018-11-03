@@ -1,15 +1,10 @@
 import React, { Component } from 'react'
 import { observer, inject } from 'mobx-react'
-import { Table, Select, Button, message } from 'antd'
+import { Table, Select, DatePicker, Button, message } from 'antd'
 import moment from 'dayjs'
 import EditModal from './EditModal';
+import { orderTypes, orderTypeMap } from '@/utils/const'
 import './index.scss'
-
-const orderTypeMap = {
-  '0': '普通',
-  '1': '午餐',
-  '2': '晚餐'
-}
 
 @inject('orderStore')
 @observer
@@ -71,6 +66,11 @@ export default class OrderView extends Component {
     this.asyncData({ type })
   }
 
+  handleSelectDate = m => {
+    const date = m.format('YYYY-MM-DD')
+    this.asyncData({ date })
+  }
+
   async asyncData (params) {
     const hide = message.loading('加载中', 0)
     await this.props.orderStore.findOrder(params)
@@ -87,19 +87,20 @@ export default class OrderView extends Component {
     return (
       <section className="orderView">
         <header>
-          <Button onClick={this.handleClickAdd}>增加</Button>
           <Select
             labelInValue
-            style={{ width: '240px', marginLeft: '20px' }}
+            style={{ width: '180px' }}
             placeholder="请选择类型"
             onChange={this.handleSelect}
           >
           {
-            orderStore.types.map(_ => (
+            [{ id: '0', name: '全部' }].concat(orderTypes).map(_ => (
               <Select.Option key={_.id}>{_.name}</Select.Option>
             ))
           }
           </Select>
+          <DatePicker onChange={this.handleSelectDate} style={{ width: '180px', marginLeft: '20px' }}/>
+          <Button onClick={this.handleClickAdd} style={{ float: 'right' }}>增加</Button>
         </header>
         <Table rowKey="id" dataSource={orderStore.orderList} columns={this.columns} />
         <EditModal/>

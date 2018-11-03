@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Modal, Form, Select, message } from 'antd'
 import { observer, inject } from 'mobx-react'
 import Order from '@/services/models/Order'
+import { orderTypes } from '@/utils/const';
+
 
 const formItemLayout = {
   labelCol: {
@@ -57,7 +59,6 @@ class EditModal extends Component {
 
   componentWillMount = () => {
     this.props.orderStore.findShop()
-    this.props.orderStore.findOrderType()
   }
 
   render() {
@@ -70,7 +71,7 @@ class EditModal extends Component {
         onOk={this.handleSubmit}
         onCancel={this.handleCancel}
       >
-        <Form onSubmit={this.handleSubmit} className="loginForm">
+        <Form onSubmit={this.handleSubmit} className="orderForm">
         <Form.Item
             {...formItemLayout}
             label="类型">
@@ -84,7 +85,7 @@ class EditModal extends Component {
                 placeholder="请选择类型"
               >
               {
-                orderStore.types.map(_ => (
+                orderTypes.map(_ => (
                   <Select.Option key={_.id}>{_.name}</Select.Option>
                 ))
               }
@@ -99,6 +100,7 @@ class EditModal extends Component {
             })(
               <Select
                 labelInValue
+                disabled={!!orderStore.modalType}
                 style={{ width: '100%' }}
                 placeholder="请选择店铺"
                 onChange={this.handleShopChange}
