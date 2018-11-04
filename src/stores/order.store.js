@@ -4,12 +4,12 @@ import Shop from '@/services/models/Shop';
 
 class OrderStore {
   @observable modalVisible = false
+  @observable searchParams = {}
   @observable modalForm = {
     type: { key: '' },
     shop: { key: '' },
     dishes: []
   }
-  @observable types = [{ id: '0', name: '全部' }, { id: '1', name: '普通' }, { id: '2', name: '午餐' }, { id: '3', name: '晚餐' }]
   @observable orderList = []
   @observable shopList = []
   @observable dishList = []
@@ -24,6 +24,11 @@ class OrderStore {
 
   @action setModalVisible (bool) {
     this.modalVisible = bool
+  }
+
+  @action setSearchParams (params) {
+    if ('type' in params) this.searchParams.type = params.type
+    if ('date' in params) this.searchParams.date = params.date
   }
 
   @action setModalForm (form) {

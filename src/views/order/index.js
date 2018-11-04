@@ -31,7 +31,7 @@ export default class OrderView extends Component {
       title: '创建时间',
       dataIndex: 'createTime',
       render (text, record, index) {
-        return moment(Number(text)).format('YYYY/MM/DD hh:mm')
+        return moment(text).format('YYYY/MM/DD HH:mm')
       }
     }, {
       title: '操作',
@@ -39,13 +39,14 @@ export default class OrderView extends Component {
       render: (_, item) => {
         const { orderStore } = this.props
         const handleClick = () => {
-          const { shop, type, id } = item
+          const { shop, type, id, dishes } = item
           orderStore.setModalForm({
             id,
             type: { key: type, label: orderTypeMap[type] },
             shop: { key: shop.id, label: shop.name },
-            dishes: item.dishes.map(_ => ({ key: _.id, label: _.name }))
+            dishes: dishes.map(_ => ({ key: _.id, label: _.name }))
           })
+          orderStore.findDishByShop({ id: shop.id })
           orderStore.setModalVisible(true)
         }
         return (
@@ -62,13 +63,17 @@ export default class OrderView extends Component {
     orderStore.setModalVisible(true)
   }
 
-  handleSelect = ({ key: type }) => {
-    this.asyncData({ type })
+  handleSelectType = ({ key: type }) => {
+    const { orderStore } = this.props
+    orderStore.setSearchParams({ type })
+    this.asyncData(orderStore.searchParams)
   }
 
   handleSelectDate = m => {
-    const date = m.format('YYYY-MM-DD')
-    this.asyncData({ date })
+    const { orderStore } = this.props
+    const date = m ? m.format('YYYY-MM-DD') : ''
+    orderStore.setSearchParams({ date })
+    this.asyncData(orderStore.searchParams)
   }
 
   async asyncData (params) {
@@ -91,7 +96,7 @@ export default class OrderView extends Component {
             labelInValue
             style={{ width: '180px' }}
             placeholder="请选择类型"
-            onChange={this.handleSelect}
+            onChange={this.handleSelectType}
           >
           {
             [{ id: '0', name: '全部' }].concat(orderTypes).map(_ => (
