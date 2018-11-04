@@ -1,32 +1,15 @@
-import Loadable from 'react-loadable'
-import Loading from '@/layouts/loading'
+import { lazy } from 'react';
+// import Loadable from 'react-loadable'
+// import Loading from '@/layouts/loading'
 
-export const AsyncUserView = Loadable({
-  loader: () => import('./user'),
-  loading: Loading
-})
+export const AsyncUserView = lazy(() => import('./user'))
 
-export const AsyncShopView = Loadable({
-  loader: () => import('./shop'),
-  loading: Loading
-})
+export const AsyncShopView = lazy(() => import('./shop'))
 
-export const AsyncMenuView = Loadable({
-  loader: () => import('./menu'),
-  loading: Loading
-})
+export const AsyncMenuView = lazy(() => import('./menu'))
 
-export const AsyncDishView = Loadable({
-  loader: () => import('./dish'),
-  loading: Loading
-})
+export const AsyncDishView = lazy(() => import('./dish'))
 
-export const AsyncOrderView = Loadable({
-  loader: () => import('./order'),
-  loading: Loading
-})
+export const AsyncOrderView = lazy(() => import('./order'))
 
-export const AsyncLoginView = Loadable({
-  loader: () => import('./login'),
-  loading: Loading
-})
+export const AsyncLoginView = lazy(() => import('./login'))
