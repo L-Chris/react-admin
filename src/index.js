@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 import { Provider } from 'mobx-react'
 import { LocaleProvider } from 'antd'
 import zhCN from 'antd/lib/locale-provider/zh_CN'
@@ -23,7 +23,7 @@ render(
       <Router basepath={ config.routeBasePath } style={{ height: '100%' }}>
         <AsyncLoginView path="/login"/>
         <HomeLayout path="/">
-          <AsyncUserView path="user"/>
+          <AsyncUserView path="user" default/>
           <AsyncShopView path="shop"/>
           <AsyncDishView path="dish"/>
           <AsyncOrderView path="order" />

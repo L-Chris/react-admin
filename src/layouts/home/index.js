@@ -24,12 +24,6 @@ class Home extends Component {
       <Layout style={{ height: '100%' }}>
         <Header className="header">
           <img className="header-logo" alt=""/>
-          <Menu
-            theme="dark"
-            mode="horizontal"
-          >
-            <Menu.Item>主页</Menu.Item>
-          </Menu>
         </Header>
         <Content style={{ padding: '0 24px', margin: '18px 0' }}>
           <Layout style={{ padding: '24px 0', background: '#fff' }}>
